@@ -69,7 +69,7 @@ python codebase_agent.py --repo /path/to/your/project
 
 You'll see something like:
 
-```
+``
 Loaded 42 files - 318 chunks (chunk_size=256)
 Ready . ask any question , type 'exit' to quit
 
