@@ -1,0 +1,15 @@
+groq>=0.30.0,<1.0.0
+langchain-groq>=1.1.3
+langchain-core>=1.6.3
+python-dotenv
+langchain
+langgraph
+langchain-huggingface
+langchain-text-splitters
+langchain-chroma
+chromadb
+sentence-transformers
+
+
+
+

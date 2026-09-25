@@ -1,3 +1,18 @@
 .env
-.git
 .venv
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Chroma / vector database
+chroma_db/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
