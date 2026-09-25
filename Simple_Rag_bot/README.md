@@ -8,7 +8,7 @@ A command-line agent that lets you **ask natural-language questions about a Pyth
 - 🤖 **Tool-calling agent** — the LLM decides when to search the codebase via a `search_codebase` retriever tool, rather than blindly stuffing context into every prompt.
 - ⚡ **Fast inference** — uses Groq's `llama-3.3-70b-versatile` for low-latency responses.
 - 💬 **Interactive REPL** — ask follow-up questions in a simple terminal chat loop.
-- 📁 **Point it at any repo** — defaults to a local `sample_proj` folder, or pass any path with `--repo`.
+- 📁 **Point it at any repo** — defaults to a local `sample_proj` folder, or pass any path with `--repo`
 
 ## How it works
 
