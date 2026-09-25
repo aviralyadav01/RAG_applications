@@ -39,9 +39,26 @@ def build_vector_store(chunks: list) -> Chroma:
     embeddings = HuggingFaceEmbeddings(model_name ="all-MiniLM-L6-v2")
     return Chroma.from_documents(chunks,embedding=embeddings)
 
+def build_agent(vector_store: Chroma):
+    retriever_tool = create_retriever_tool(
+        vector_store.as_retriever(search_kwargs={'k': 4}),
+        name = "search_codebase",
+        description="search the codebase for relevant function, classes , logic",
+    )
+    #initilize the llm
+    llm = ChatGroq(
+        model_name="llama-3.3-70b-versatile",
+        temperature=0.7
+    )
+    return create_agent(
+        llm , tools = [retriever_tool],
+        system_prompt=(
+            "you are a senior engineer . always use search_codebase before answering"
+            "reference specific file and function name"
+            "if not found say 'nhi milla bey' ",
+        )
+    )
 
-#initialize groq llm
-llm = ChatGroq(
-    model_name = "llama-3.3-70b-versatile",
-    temperature=0.7
-)
+
+
+
