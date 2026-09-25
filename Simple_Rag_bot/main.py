@@ -53,12 +53,52 @@ def build_agent(vector_store: Chroma):
     return create_agent(
         llm , tools = [retriever_tool],
         system_prompt=(
-            "you are a senior engineer . always use search_codebase before answering"
-            "reference specific file and function name"
-            "if not found say 'nhi milla bey' ",
+               "You are a senior engineer. Always use search_codebase before answering. "
+               "Reference specific file and function names. "
+               "If not found, say 'nhi milla bey'."
         )
     )
 
+if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--repo",
+        default=str(Path(__file__).parent.parent / "sample_proj")
+    )
+
+    args = parser.parse_args()
+
+    repo_path = str(Path(args.repo).resolve())
+
+    docs = load_codebase(repo_path)
+    chunks = chunk_code(docs)
+
+    print(
+        f"Loaded {len(docs)} files - "
+        f"{len(chunks)} chunks "
+        f"(chunk_size={CHUNK_SIZE})"
+    )
+
+
+    vector_store = build_vector_store(chunks)
+    agent = build_agent(vector_store)
+
+    print("Ready . ask any question , type 'exit' to quit")
+    while True:
+        question = input("\nYou: ").strip()
+        if not question or question.lower()in ("exit" , "quit"):
+            break
+
+        for step in agent.stream(
+            {"messages": [{"role": "user","content":question}]},
+            stream_mode = "values",
+        ):
+            last_msg = step["messages"][-1]
+            if not getattr(last_msg,"tool_calls",None):
+                print(f"Agent: {last_msg.content}")
+            
 
 
 
